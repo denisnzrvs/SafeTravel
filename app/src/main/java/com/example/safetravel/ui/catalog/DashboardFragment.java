@@ -1,4 +1,4 @@
-package com.example.safetravel.ui.dashboard;
+package com.example.safetravel.ui.catalog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

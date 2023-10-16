@@ -1,4 +1,4 @@
-package com.example.safetravel.ui.dashboard;
+package com.example.safetravel.ui.catalog;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
