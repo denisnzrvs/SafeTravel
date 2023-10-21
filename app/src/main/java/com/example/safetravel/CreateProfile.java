@@ -2,6 +2,7 @@ package com.example.safetravel;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.JsonWriter;
 import android.view.View;
@@ -61,7 +62,10 @@ public class CreateProfile extends AppCompatActivity {
             f.write(buffer.toString());
             f.close();
             Toast.makeText(this, "Profile created!", Toast.LENGTH_SHORT).show();
-            finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
         } catch (Exception e) {
             Toast.makeText(this, "Error: Could not create profile file.", Toast.LENGTH_SHORT).show();
         }
