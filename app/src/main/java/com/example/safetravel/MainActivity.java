@@ -5,14 +5,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.safetravel.databinding.ActivityMainBinding;
-import com.example.safetravel.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
@@ -47,10 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
         Button createProfile = findViewById(R.id.createProfileButton);
         View fragmentContainer = findViewById(R.id.text_home); // The container for your fragment
+        BottomNavigationView navView = findViewById(R.id.nav_view);
 
         if (!profileJSON.exists()) {
-            // Profile doesn't exist, show the button and hide the fragment container
+            // Profile doesn't exist, show the button and hide navigation
+            fragmentContainer.setVisibility(View.GONE);
+            navView.setVisibility(View.GONE);
             createProfile.setVisibility(View.VISIBLE);
+
             Toast.makeText(this, "No profile found! Please, create a new one!", Toast.LENGTH_SHORT).show();
             //Navigate to CreateProfileActivity if profile doesn't exist.
             createProfile.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Profile exists, hide the button and show the fragment container
             createProfile.setVisibility(View.GONE);
+            fragmentContainer.setVisibility(View.VISIBLE);
+            navView.setVisibility(View.VISIBLE);
+
         }
     }
 }
