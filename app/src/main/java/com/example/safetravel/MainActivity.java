@@ -6,9 +6,14 @@ import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.example.safetravel.databinding.ActivityMainBinding;
 import com.example.safetravel.ui.home.HomeFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 
@@ -23,6 +28,16 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_settings)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.navView, navController);
+
         checkProfile();
     }
 
@@ -36,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         if (!profileJSON.exists()) {
             // Profile doesn't exist, show the button and hide the fragment container
             createProfile.setVisibility(View.VISIBLE);
-            fragmentContainer.setVisibility(View.GONE);
             Toast.makeText(this, "No profile found! Please, create a new one!", Toast.LENGTH_SHORT).show();
             //Navigate to CreateProfileActivity if profile doesn't exist.
             createProfile.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Profile exists, hide the button and show the fragment container
             createProfile.setVisibility(View.GONE);
-            fragmentContainer.setVisibility(View.VISIBLE);
         }
     }
 }
