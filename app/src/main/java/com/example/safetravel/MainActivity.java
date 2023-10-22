@@ -43,30 +43,9 @@ public class MainActivity extends AppCompatActivity {
         File internalDir = getFilesDir();
         File profileJSON = new File(internalDir, "profile.json");
 
-        Button createProfile = findViewById(R.id.createProfileButton);
-        View fragmentContainer = findViewById(R.id.textHome); // The container for your fragment
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-
         if (!profileJSON.exists()) {
-            // Profile doesn't exist, show the button and hide navigation
-            fragmentContainer.setVisibility(View.GONE);
-            navView.setVisibility(View.GONE);
-            createProfile.setVisibility(View.VISIBLE);
-
-            Toast.makeText(this, "No profile found! Please, create a new one!", Toast.LENGTH_SHORT).show();
-            //Navigate to CreateProfileActivity if profile doesn't exist.
-            createProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, CreateProfile.class));
-                }
-            });
-        } else {
-            // Profile exists, hide the button and show the fragment container
-            createProfile.setVisibility(View.GONE);
-            fragmentContainer.setVisibility(View.VISIBLE);
-            navView.setVisibility(View.VISIBLE);
+            startActivity(new Intent(MainActivity.this, CreateProfile.class));
+         }
 
         }
     }
-}

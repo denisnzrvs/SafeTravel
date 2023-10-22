@@ -8,6 +8,19 @@
     tools:context=".ui.home.HomeFragment">
 
     <!-- Text View for Displaying Content -->
+
+    <Button
+        android:id="@+id/createProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create profile!"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment_activity_main" />
+
+
     <TextView
         android:id="@+id/textHome"
         android:layout_width="match_parent"
