@@ -12,13 +12,21 @@ public class FileHandler {
         this.innerDir = context.getFilesDir();
     }
 
-    public String getCurrentTrip() {
+    public String getCurrentTripName() {
         String inactivePattern = ".*_inactive$"; // Match names ending with "_inactive"
 
         for (File file : innerDir.listFiles()) {
             if (file.isDirectory() && !file.getName().matches(inactivePattern)) {
                 return file.getName();
             }
+        }
+        return null;
+    }
+
+    public File getCurrentTripDir() {
+        String currentTripName = getCurrentTripName();
+        if (currentTripName != null) {
+            return new File(innerDir, currentTripName);
         }
         return null;
     }
