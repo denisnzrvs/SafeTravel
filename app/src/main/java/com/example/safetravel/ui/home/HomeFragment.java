@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
@@ -21,6 +22,10 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private EditText folderNameEditText;
+    private RelativeLayout dialogContainer;
+    private EditText dialogFolderNameEditText;
+    private Button dialogSaveButton;
+    private Button dialogCancelButton;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -35,16 +40,26 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         Button addButton = binding.addButton;
-        folderNameEditText = binding.folderNameEditText;
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toggleDialogVisibility(true);
+            }
+        });
 
-                String folderName = folderNameEditText.getText().toString();
+        dialogContainer = binding.dialogContainer;
+        dialogFolderNameEditText = binding.dialogFolderNameEditText;
+        dialogSaveButton = binding.dialogSaveButton;
+        dialogCancelButton = binding.dialogCancelButton;
 
+        dialogSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String folderName = dialogFolderNameEditText.getText().toString();
                 if (!folderName.isEmpty()) {
                     createFolderAndFiles(folderName);
+                    toggleDialogVisibility(false);
                 } else {
                     Toast.makeText(requireContext(), "Please enter a folder name.", Toast.LENGTH_SHORT).show();
                 }
@@ -52,12 +67,29 @@ public class HomeFragment extends Fragment {
         });
 
 
+        dialogCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleDialogVisibility(false);
+            }
+        });
+
+
         return root;
+    }
+
+    private void toggleDialogVisibility(boolean show) {
+        if (show) {
+            dialogContainer.setVisibility(View.VISIBLE);
+        } else {
+            dialogContainer.setVisibility(View.GONE);
+            dialogFolderNameEditText.setText(""); // Clear the input field
+        }
     }
 
     private void createFolderAndFiles(String folderName) {
         // Create a new trip folder
-        File tripFolder = new File(requireContext().getExternalFilesDir(null), folderName);
+        File tripFolder = new File(requireContext().getFilesDir(), folderName);
 
         if (!tripFolder.exists() && tripFolder.mkdirs()) {
             // Folder created successfully

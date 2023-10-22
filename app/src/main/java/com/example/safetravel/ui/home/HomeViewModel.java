@@ -5,19 +5,21 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class HomeViewModel extends ViewModel {
-
-    private MutableLiveData<String> textLiveData;
+    private MutableLiveData<String> text;
 
     public HomeViewModel() {
-        textLiveData = new MutableLiveData<>();
-        textLiveData.setValue("Default Text");
+        text = new MutableLiveData<>();
+        text.setValue("Welcome to SafeTravel!");
     }
 
     public LiveData<String> getText() {
-        return textLiveData;
+        return text;
     }
 
     public void updateText(String newText) {
-        textLiveData.setValue(newText);
+        text.setValue(newText);
     }
 }
+
+
+

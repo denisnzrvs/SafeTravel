@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         File profileJSON = new File(internalDir, "profile.json");
 
         Button createProfile = findViewById(R.id.createProfileButton);
-        View fragmentContainer = findViewById(R.id.text_home); // The container for your fragment
+        View fragmentContainer = findViewById(R.id.textHome); // The container for your fragment
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         if (!profileJSON.exists()) {
