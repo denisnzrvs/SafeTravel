@@ -44,36 +44,9 @@ public class HomeFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggleDialogVisibility(true);
+                new CreateFolderDialog().show(getChildFragmentManager(), "CreateFolderDialog");
             }
         });
-
-        dialogContainer = binding.dialogContainer;
-        dialogFolderNameEditText = binding.dialogFolderNameEditText;
-        dialogSaveButton = binding.dialogSaveButton;
-        dialogCancelButton = binding.dialogCancelButton;
-
-        dialogSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String folderName = dialogFolderNameEditText.getText().toString();
-                if (!folderName.isEmpty()) {
-                    createFolderAndFiles(folderName);
-                    toggleDialogVisibility(false);
-                } else {
-                    Toast.makeText(requireContext(), "Please enter a folder name.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-
-        dialogCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleDialogVisibility(false);
-            }
-        });
-
 
         return root;
     }
@@ -86,22 +59,6 @@ public class HomeFragment extends Fragment {
             dialogFolderNameEditText.setText(""); // Clear the input field
         }
     }
-
-    private void createFolderAndFiles(String folderName) {
-        // Create a new trip folder
-        File tripFolder = new File(requireContext().getFilesDir(), folderName);
-
-        if (!tripFolder.exists() && tripFolder.mkdirs()) {
-            // Folder created successfully
-            // You can also create and save files here if needed
-            Toast.makeText(requireContext(), "Folder created: " + folderName, Toast.LENGTH_SHORT).show();
-        } else {
-            // Folder creation failed or folder already exists
-            Toast.makeText(requireContext(), "Folder creation failed or folder already exists.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
 
     @Override
     public void onDestroyView() {
