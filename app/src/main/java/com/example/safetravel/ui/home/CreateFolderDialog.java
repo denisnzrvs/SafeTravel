@@ -3,6 +3,7 @@ package com.example.safetravel.ui.home;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,6 +30,11 @@ public class CreateFolderDialog extends DialogFragment {
                             File tripFolder = new File(requireContext().getFilesDir(), folderName);
                             if (!tripFolder.exists() && tripFolder.mkdirs()) {
                                 Toast.makeText(requireContext(), "Folder created: " + folderName, Toast.LENGTH_SHORT).show();
+
+                                // Restart the activity
+                                Intent intent = requireActivity().getIntent();
+                                requireActivity().finish();
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(requireContext(), "Folder creation failed or folder already exists.", Toast.LENGTH_SHORT).show();
                             }

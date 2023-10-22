@@ -7,19 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <!-- Text View for Displaying Content -->
-
-    <Button
-        android:id="@+id/createProfileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create profile!"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/nav_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment_activity_main" />
-
 
     <TextView
         android:id="@+id/textHome"
@@ -28,9 +15,9 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Button to Show Folder Name Input -->
     <Button
@@ -43,42 +30,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Folder Name Input Dialog Container (Initially Hidden) -->
-    <RelativeLayout
-        android:id="@+id/dialogContainer"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/countryTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/addButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/dialogFolderNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:hint="Enter Folder Name"
-            />
 
-        <Button
-            android:id="@+id/dialogSaveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            app:layout_constraintTop_toBottomOf="@id/dialogFolderNameEditText"
-            android:layout_marginTop="42dp"
-            android:layout_centerHorizontal="true"
-            />
-
-        <Button
-            android:id="@+id/dialogCancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:layout_below="@+id/dialogSaveButton"
-            android:layout_marginTop="16dp"
-            android:layout_centerHorizontal="true"/>
-    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

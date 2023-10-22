@@ -1,0 +1,25 @@
+package com.example.safetravel;
+
+import android.content.Context;
+import java.io.File;
+
+public class FileHandler {
+    private Context context;
+    private File innerDir;
+
+    public FileHandler(Context context) {
+        this.context = context;
+        this.innerDir = context.getFilesDir();
+    }
+
+    public String getCurrentTrip() {
+        String inactivePattern = ".*_inactive$"; // Match names ending with "_inactive"
+
+        for (File file : innerDir.listFiles()) {
+            if (file.isDirectory() && !file.getName().matches(inactivePattern)) {
+                return file.getName();
+            }
+        }
+        return null;
+    }
+}
