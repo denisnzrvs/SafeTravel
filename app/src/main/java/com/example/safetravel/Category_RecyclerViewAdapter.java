@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Category_RecyclerViewAdapter extends RecyclerView.Adapter<Category_RecyclerViewAdapter.MyViewHolder> {
@@ -30,6 +31,14 @@ public class Category_RecyclerViewAdapter extends RecyclerView.Adapter<Category_
     @Override
     public void onBindViewHolder(@NonNull Category_RecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.textView.setText(category_files.get(position).getFileName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FileHandler fh = new FileHandler(context);
+                fh.openFile(new File(category_files.get(position).getFilePath()));
+            }
+        });
     }
 
     @Override
