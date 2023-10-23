@@ -56,23 +56,23 @@
         android:id="@+id/buttonGetContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get Contacts"
+        android:text="Manage Contacts"
         app:layout_constraintTop_toBottomOf="@+id/userPhoneText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
-        android:layout_width="385dp"
-        android:layout_height="118dp"
+        android:layout_width="317dp"
+        android:layout_height="143dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonGetContact">
 
         <ListView
             android:id="@+id/contactListView"
-            android:layout_width="387dp"
-            android:layout_height="112dp" />
+            android:layout_width="318dp"
+            android:layout_height="136dp" />
     </FrameLayout>
 
     <Button

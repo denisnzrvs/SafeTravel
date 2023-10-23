@@ -112,25 +112,7 @@ public class SettingsFragment extends Fragment {
 
         return view;
     }
-    private void displayUserProfile() {
-        try {
-            File internalDir = requireContext().getFilesDir();
-            File profileJSON = new File(internalDir, "profile.json");
-            String json = readProfileJSON(profileJSON);
 
-            JSONObject jsonObject = new JSONObject(json);
-            String name = jsonObject.getString("name");
-            String email = jsonObject.getString("email");
-            String phone = jsonObject.getString("phone");
-
-            // Display the user profile information
-            String profileInfo = "Name: " + name + "\nEmail: " + email + "\nPhone: " + phone;
-            showDialog("User Profile", profileInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "Error: Could not read profile data.", Toast.LENGTH_SHORT).show();
-        }
-    }
     // Helper method to read profile JSON
     private String readProfileJSON(File profileJSON) {
         try {
@@ -148,15 +130,6 @@ public class SettingsFragment extends Fragment {
             e.printStackTrace();
             return "";
         }
-    }
-
-    // Helper method to display profile information in a dialog
-    private void showDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", null);
-        builder.show();
     }
 
     private void requestPermissions() {
