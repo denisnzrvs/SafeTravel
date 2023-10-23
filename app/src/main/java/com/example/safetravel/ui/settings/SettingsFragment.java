@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.content.Context;
+import android.telephony.SmsManager;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -40,18 +41,37 @@ public class SettingsFragment extends Fragment {
     private ArrayAdapter<Contact> adapter;
 
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+    private static final int PERMISSIONS_REQUEST_SEND_SMS = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         Button button = view.findViewById(R.id.buttonGetContact);
+        Button sosButton = view.findViewById(R.id.buttonSOS);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPhoneContacts();
+                if (hasReadContactsPermission()) {
+                    getPhoneContacts();
+                } else {
+                    requestReadContactsPermission();
+                }
             }
         });
+
+        sosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (hasSendSmsPermission()) {
+                    sendSOSMessages();
+                } else {
+                    requestSendSmsPermission();
+                }
+            }
+        });
+
         contactListView = view.findViewById(R.id.contactListView);
         adapter = new ArrayAdapter<>(
                 requireContext(),
@@ -74,11 +94,15 @@ public class SettingsFragment extends Fragment {
     private boolean hasReadContactsPermission() {
         return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
     }
-
+    private boolean hasSendSmsPermission() {
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
     private void requestReadContactsPermission() {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
     }
-
+    private void requestSendSmsPermission() {
+        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST_SEND_SMS);
+    }
     private void getPhoneContacts() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS}, 0);
@@ -193,6 +217,31 @@ public class SettingsFragment extends Fragment {
         return loadedContacts;
     }
 
+    private void sendSOSMessages() {
+        if (selectedContacts.isEmpty()) {
+            // No selected contacts to send SOS messages to
+            Toast.makeText(requireContext(), "No contacts selected for SOS messages.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String sosMessage = "Emergency: I need help!";
+        SmsManager smsManager = SmsManager.getDefault();
+
+        for (Contact contact : selectedContacts) {
+            String phoneNumber = contact.getPhoneNumber();
+
+            try {
+                smsManager.sendTextMessage(phoneNumber, null, sosMessage, null, null);
+                // Handle success (e.g., displaying a message or UI update)
+            } catch (Exception e) {
+                // Handle any errors that may occur during SMS sending
+                Toast.makeText(requireContext(), "Failed to send SOS message to " + contact.getName(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+
+        // Handle completion (e.g., displaying a message or UI update)
+    }
     private void updateListAdapter() {
         adapter.notifyDataSetChanged();
     }
