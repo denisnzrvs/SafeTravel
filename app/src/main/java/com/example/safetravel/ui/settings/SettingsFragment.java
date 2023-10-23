@@ -49,7 +49,7 @@ public class SettingsFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnGetContactPressed(v);
+                getPhoneContacts();
             }
         });
         contactListView = view.findViewById(R.id.contactListView);
@@ -61,11 +61,6 @@ public class SettingsFragment extends Fragment {
         );
         contactListView.setAdapter(adapter);
 
-        if (hasReadContactsPermission()) {
-            getPhoneContacts();
-        } else {
-            requestReadContactsPermission();
-        }
 
         ArrayList<Contact> loadedContacts = loadContactsFromJson();
         if (loadedContacts != null) {
