@@ -6,10 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".CreateProfile">
 
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_gradient"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <EditText
         android:id="@+id/email_address_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="jane.doe@me.com"
         android:inputType="textEmailAddress"
@@ -18,10 +30,13 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.228" />
+        app:layout_constraintVertical_bias="0.228"
+        android:textColorHint="?attr/colorOnSecondary"
+        android:backgroundTint="@color/purple_200"/>
 
     <EditText
         android:id="@+id/phone_number_input"
+        android:layout_marginTop="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints="AUTOFILL_HINT_PHONE"
@@ -33,10 +48,13 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintVertical_bias="0.333"
+        android:textColorHint="?attr/colorOnSecondary"
+        android:backgroundTint="@color/purple_200"/>
 
     <EditText
         android:id="@+id/user_name_input"
+        android:layout_marginTop="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -47,13 +65,24 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.129" />
+        app:layout_constraintVertical_bias="0.129"
+        android:textColorHint="?attr/colorOnSecondary"
+        android:backgroundTint="@color/purple_200"/>
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="364dp"
-        android:layout_height="43dp"
-        android:text="Making a profile is easy - just two easy steps! For now, please enter some information about yourself."
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/myfont"
+        android:paddingTop="32dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Making a profile is easy - just two steps!\nFor now, please enter some information about yourself"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/user_name_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,9 +90,17 @@
 
     <Button
         android:id="@+id/btn_user_data_done"
+        style="@style/Theme.Material3.DayNight"
+        android:layout_marginTop="64dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Press me"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
+        android:fontFamily="@font/myfont"
+        android:text="Create"
+        android:textSize = "18sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
