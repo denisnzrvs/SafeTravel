@@ -1,6 +1,9 @@
 package com.example.safetravel;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -30,5 +33,12 @@ public class FileHandler {
             return new File(innerDir, currentTripName);
         }
         return null;
+    }
+
+    public void openFile(File f) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(f), "text/plain");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        context.startActivity(intent);
     }
 }
