@@ -30,7 +30,7 @@ File categoryDir = new File(tripDir, getIntent().getStringExtra("folderName"));
 ArrayList<Category_File> files = new ArrayList<Category_File>();
 
 for(File f:categoryDir.listFiles()){
-    files.add(new Category_File(f.getName(), f.getName()));
+    files.add(new Category_File(f.getName(), f.getPath()));
     Toast.makeText(this, f.getName(), Toast.LENGTH_SHORT);
 }
 Category_RecyclerViewAdapter adapter = new Category_RecyclerViewAdapter(this, files);
