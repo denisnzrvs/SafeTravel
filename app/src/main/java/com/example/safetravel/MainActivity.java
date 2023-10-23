@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+
         checkProfile();
     }
 
@@ -45,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (!profileJSON.exists()) {
             startActivity(new Intent(MainActivity.this, CreateProfile.class));
-         }
+
+        }
 
         }
     }
