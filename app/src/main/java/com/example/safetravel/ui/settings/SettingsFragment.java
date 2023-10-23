@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +27,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.widget.Button;
 
+import org.json.JSONObject;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -81,7 +85,78 @@ public class SettingsFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
 
+        TextView userNameText = view.findViewById(R.id.userNameText);
+        TextView userEmailText = view.findViewById(R.id.userEmailText);
+        TextView userPhoneText = view.findViewById(R.id.userPhoneText);
+
+        // Replace these sample values with the actual user data
+        File internalDir = requireContext().getFilesDir();
+        File profileJSON = new File(internalDir, "profile.json");
+
+        if (profileJSON.exists()) {
+            try {
+                String json = readProfileJSON(profileJSON);
+                JSONObject jsonObject = new JSONObject(json);
+                String userName = jsonObject.getString("name");
+                String userEmail = jsonObject.getString("email");
+                String userPhone = jsonObject.getString("phone");
+
+                userNameText.setText(userName);
+                userEmailText.setText(userEmail);
+                userPhoneText.setText(userPhone);
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Handle any errors that may occur when reading the JSON file
+            }
+        }
+
         return view;
+    }
+    private void displayUserProfile() {
+        try {
+            File internalDir = requireContext().getFilesDir();
+            File profileJSON = new File(internalDir, "profile.json");
+            String json = readProfileJSON(profileJSON);
+
+            JSONObject jsonObject = new JSONObject(json);
+            String name = jsonObject.getString("name");
+            String email = jsonObject.getString("email");
+            String phone = jsonObject.getString("phone");
+
+            // Display the user profile information
+            String profileInfo = "Name: " + name + "\nEmail: " + email + "\nPhone: " + phone;
+            showDialog("User Profile", profileInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(requireContext(), "Error: Could not read profile data.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    // Helper method to read profile JSON
+    private String readProfileJSON(File profileJSON) {
+        try {
+            FileInputStream inputStream = new FileInputStream(profileJSON);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            inputStream.close();
+            return stringBuilder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    // Helper method to display profile information in a dialog
+    private void showDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", null);
+        builder.show();
     }
 
     private void requestPermissions() {
