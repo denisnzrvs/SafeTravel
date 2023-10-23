@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.content.Context;
 import android.telephony.SmsManager;
-
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -253,30 +252,8 @@ public class SettingsFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-
-        // Handle completion (e.g., displaying a message or UI update)
     }
     private void updateListAdapter() {
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            getPhoneContacts();
-        } else {
-            Toast.makeText(requireContext(), "Permission denied. Cannot access contacts.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void btnGetContactPressed(View view) {
-        if (hasReadContactsPermission()) {
-            getPhoneContacts();
-        } else {
-            requestReadContactsPermission();
-        }
     }
 }
