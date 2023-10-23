@@ -224,7 +224,7 @@ public class SettingsFragment extends Fragment {
             return;
         }
 
-        String sosMessage = "Emergency: I need help!";
+        String sosMessage = "TEST: Emergency: I need help!";
         SmsManager smsManager = SmsManager.getDefault();
 
         for (Contact contact : selectedContacts) {
