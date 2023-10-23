@@ -1,4 +1,4 @@
-package com.example.safetravel;
+package com.example.safetravel.ui.settings;
 
 public class Contact {
     private String name;
@@ -22,3 +22,4 @@ public class Contact {
         return name + " : " + phoneNumber;
     }
 }
+

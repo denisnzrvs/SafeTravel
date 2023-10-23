@@ -1,28 +1,32 @@
-package com.example.safetravel;
+package com.example.safetravel.ui.settings;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.content.Context;
+
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
+import com.example.safetravel.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import android.widget.Button;
 
 import java.io.FileInputStream;
-
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,7 +34,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class Contacts_main extends AppCompatActivity {
+public class ContactFragment extends Fragment {
     private ArrayList<Contact> selectedContacts = new ArrayList<>();
     private ListView contactListView;
     private ArrayAdapter<Contact> adapter;
@@ -38,13 +42,19 @@ public class Contacts_main extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_settings);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        contactListView = findViewById(R.id.contactListView);
+        Button button = view.findViewById(R.id.buttonGetContact);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnGetContactPressed(v);
+            }
+        });
+        contactListView = view.findViewById(R.id.contactListView);
         adapter = new ArrayAdapter<>(
-                this,
+                requireContext(),
                 R.layout.contact_list_item,
                 R.id.contactName,
                 selectedContacts
@@ -57,40 +67,33 @@ public class Contacts_main extends AppCompatActivity {
             requestReadContactsPermission();
         }
 
-
         ArrayList<Contact> loadedContacts = loadContactsFromJson();
         if (loadedContacts != null) {
             selectedContacts.addAll(loadedContacts);
             adapter.notifyDataSetChanged();
         }
+
+        return view;
     }
 
     private boolean hasReadContactsPermission() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestReadContactsPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
-    }
-
-    public void btnGetContactPressed(View v) {
-        if (hasReadContactsPermission()) {
-            getPhoneContacts();
-        } else {
-            requestReadContactsPermission();
-        }
+        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
     }
 
     private void getPhoneContacts() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 0);
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_CONTACTS}, 0);
         } else {
-            ContentResolver contentResolver = getContentResolver();
+            ContentResolver contentResolver = requireContext().getContentResolver();
             Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
             Cursor cursor = contentResolver.query(uri, null, null, null, null);
 
             if (cursor.getCount() > 0) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle("Select Contacts");
 
                 final ArrayList<String> contactNames = new ArrayList<>();
@@ -135,7 +138,7 @@ public class Contacts_main extends AppCompatActivity {
 
                 builder.show();
             } else {
-                Toast.makeText(this, "No contacts found on the phone.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "No contacts found on the phone.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -145,7 +148,8 @@ public class Contacts_main extends AppCompatActivity {
         String json = gson.toJson(contacts);
 
         try {
-            FileOutputStream outputStream = openFileOutput("selected_contacts.json", Context.MODE_PRIVATE);
+            FileOutputStream outputStream = requireContext().openFileOutput("selected_contacts.json", Context.MODE_PRIVATE);
+
             outputStream.write(json.getBytes());
             outputStream.close();
         } catch (IOException e) {
@@ -156,7 +160,7 @@ public class Contacts_main extends AppCompatActivity {
     private ArrayList<Contact> loadContactsFromJson() {
         ArrayList<Contact> loadedContacts = new ArrayList<>();
         try {
-            FileInputStream inputStream = openFileInput("selected_contacts.json");
+            FileInputStream inputStream = requireContext().openFileInput("selected_contacts.json");
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -184,12 +188,21 @@ public class Contacts_main extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults); // Call the superclass implementation
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == 0 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
             getPhoneContacts();
         } else {
-            Toast.makeText(this, "Permission denied. Cannot access contacts.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Permission denied. Cannot access contacts.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void btnGetContactPressed(View view) {
+        if (hasReadContactsPermission()) {
+            getPhoneContacts();
+        } else {
+            requestReadContactsPermission();
         }
     }
 }
