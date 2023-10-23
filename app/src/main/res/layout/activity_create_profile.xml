@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.228"
-        android:textColorHint="@color/black"
+        android:textColorHint="?attr/colorOnSecondary"
         android:backgroundTint="@color/purple_200"/>
 
     <EditText
@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.333"
-        android:textColorHint="@color/black"
+        android:textColorHint="?attr/colorOnSecondary"
         android:backgroundTint="@color/purple_200"/>
 
     <EditText
@@ -56,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.129"
-        android:textColorHint="@color/black"
+        android:textColorHint="?attr/colorOnSecondary"
         android:backgroundTint="@color/purple_200"/>
 
     <TextView
@@ -85,8 +85,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white"
         android:fontFamily="@font/myfont"
         android:text="Create"
+        android:textSize = "18sp"
         android:textStyle="bold"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
