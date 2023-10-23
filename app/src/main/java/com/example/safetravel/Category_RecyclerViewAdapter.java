@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Category_RecyclerViewAdapter extends RecyclerView.Adapter<Category_RecyclerViewAdapter.MyViewHolder> {
@@ -37,29 +38,13 @@ public class Category_RecyclerViewAdapter extends RecyclerView.Adapter<Category_
 
     @Override
     public void onBindViewHolder(@NonNull Category_RecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.button.setText(category_files.get(position).getFileName());
+        holder.textView.setText(category_files.get(position).getFileName());
 
-        holder.button.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String filePath = category_files.get(position).getFilePath();
-
-                try {
-                    // Create an intent to view the file using its associated app
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    Uri uri = Uri.parse("content://" + filePath); // Use "file://" for local file paths
-                    intent.setDataAndType(uri, "application/pdf"); // Set the MIME type to PDF
-
-                    // Set flags and permissions
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                    context.startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    // Handle exceptions or show an error message if the file can't be opened.
-                }
-
+                FileHandler fh = new FileHandler(context);
+                fh.openFile(new File(category_files.get(position).getFilePath()));
             }
         });
     }
