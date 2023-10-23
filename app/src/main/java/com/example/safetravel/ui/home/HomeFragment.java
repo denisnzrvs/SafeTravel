@@ -5,25 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.EditText;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.safetravel.R;
 import com.example.safetravel.databinding.FragmentHomeBinding;
 import com.example.safetravel.FileHandler;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -83,6 +78,12 @@ public class HomeFragment extends Fragment {
                 Button addFolder = new Button(getContext());
                 addFolder.setText("Add Folder");
                 addFolder.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                addFolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new CreateCategory().show(getChildFragmentManager(), "CreateCategoryDialog");
+                    }
+                });
                 folders.addView(addFolder);
 
         } else {
@@ -92,7 +93,7 @@ public class HomeFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CreateFolderDialog().show(getChildFragmentManager(), "CreateFolderDialog");
+                new CreateTripFolder().show(getChildFragmentManager(), "CreateFolderDialog");
             }
         });
 

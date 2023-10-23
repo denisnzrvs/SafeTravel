@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment;
 
 import java.io.File;
 
-public class CreateFolderDialog extends DialogFragment {
+public class CreateTripFolder extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
