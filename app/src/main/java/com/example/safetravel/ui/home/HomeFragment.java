@@ -1,5 +1,6 @@
 package com.example.safetravel.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.safetravel.Category;
 import com.example.safetravel.databinding.FragmentHomeBinding;
 import com.example.safetravel.FileHandler;
 
@@ -68,6 +70,12 @@ public class HomeFragment extends Fragment {
                 // Create a new button for the folder and add it to the current column layout
                 Button button = new Button(getContext());
                 button.setText(folder.getName());
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+startActivity(new Intent(getContext(), Category.class).putExtra("folderName", folder.getName()));
+                    }
+                });
                 button.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, // Match the width of the column
                         LinearLayout.LayoutParams.WRAP_CONTENT

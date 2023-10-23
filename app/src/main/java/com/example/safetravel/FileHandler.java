@@ -2,6 +2,7 @@ package com.example.safetravel;
 
 import android.content.Context;
 import java.io.File;
+import java.util.ArrayList;
 
 public class FileHandler {
     private Context context;
