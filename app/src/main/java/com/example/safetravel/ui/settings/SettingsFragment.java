@@ -47,28 +47,22 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        requestPermissions();
+
         Button button = view.findViewById(R.id.buttonGetContact);
         Button sosButton = view.findViewById(R.id.buttonSOS);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hasReadContactsPermission()) {
-                    getPhoneContacts();
-                } else {
-                    requestReadContactsPermission();
-                }
+                getPhoneContacts();
             }
         });
 
         sosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hasSendSmsPermission()) {
                     sendSOSMessages();
-                } else {
-                    requestSendSmsPermission();
-                }
             }
         });
 
@@ -90,6 +84,24 @@ public class SettingsFragment extends Fragment {
 
         return view;
     }
+
+    private void requestPermissions() {
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+
+        if (!hasReadContactsPermission()) {
+            permissionsToRequest.add(Manifest.permission.READ_CONTACTS);
+        }
+
+        if (!hasSendSmsPermission()) {
+            permissionsToRequest.add(Manifest.permission.SEND_SMS);
+        }
+
+        if (!permissionsToRequest.isEmpty()) {
+            String[] permissionsArray = permissionsToRequest.toArray(new String[0]);
+            ActivityCompat.requestPermissions(requireActivity(), permissionsArray, PERMISSIONS_REQUEST_READ_CONTACTS);
+        }
+    }
+
 
     private boolean hasReadContactsPermission() {
         return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
@@ -226,6 +238,8 @@ public class SettingsFragment extends Fragment {
 
         String sosMessage = "TEST: Emergency: I need help!";
         SmsManager smsManager = SmsManager.getDefault();
+        Toast.makeText(requireContext(), "SOS message sent!", Toast.LENGTH_SHORT).show();
+
 
         for (Contact contact : selectedContacts) {
             String phoneNumber = contact.getPhoneNumber();
