@@ -10,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.safetravel.FileHandler;
 import com.example.safetravel.databinding.FragmentNotificationsBinding;
+
+import java.util.ArrayList;
 
 public class NotificationsFragment extends Fragment {
 
@@ -24,8 +27,15 @@ public class NotificationsFragment extends Fragment {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        FileHandler fh = new FileHandler(getContext());
+        ArrayList<String> archiveTrips = fh.getTripNames();
+
+        for(String trip:archiveTrips) {
+            TextView tv = new TextView(getContext());
+            tv.setText(trip);
+            binding.archiveList.addView(tv);
+        }
+
         return root;
     }
 

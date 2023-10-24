@@ -1,10 +1,13 @@
 package com.example.safetravel;
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -14,6 +17,7 @@ import com.example.safetravel.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -41,13 +47,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void checkProfile() {
-        File internalDir = getFilesDir();
-        File profileJSON = new File(internalDir, "profile.json");
+        // Get the external app storage directory for documents
+        File externalDocumentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
 
-        if (!profileJSON.exists()) {
-            startActivity(new Intent(MainActivity.this, CreateProfile.class));
+        if (externalDocumentsDir != null) {
+            // Specify the path within the external app storage where you want to store the file
+            File profileJSON = new File(externalDocumentsDir, "profile.json");
 
-        }
-
+            if (!profileJSON.exists()) {
+                startActivity(new Intent(MainActivity.this, CreateProfile.class));
+            }
+        } else {
+            // External app storage for documents is not available, handle this case accordingly
+            Toast.makeText(this, "External app storage for documents is not available.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+}

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.JsonWriter;
 import android.view.View;
 import android.widget.Button;
@@ -37,8 +38,8 @@ public class CreateProfile extends AppCompatActivity {
     }
 
     void createProfileJSON() {
-        File internalDir = getFilesDir();
-        File profileJSON = new File(internalDir, "profile.json");
+        File externalDocumentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File profileJSON = new File(externalDocumentsDir, "profile.json");
         JSONObject buffer = new JSONObject();
         try {
             profileJSON.createNewFile();

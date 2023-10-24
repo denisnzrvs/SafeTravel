@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ public class CreateTripFolder extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         String folderName = dialogFolderNameEditText.getText().toString();
                         if (!folderName.isEmpty()) {
-                            File tripFolder = new File(requireContext().getFilesDir(), folderName);
+                            File tripFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), folderName);
                             if (!tripFolder.exists() && tripFolder.mkdirs()) {
                                 Toast.makeText(requireContext(), "Folder created: " + folderName, Toast.LENGTH_SHORT).show();
 
