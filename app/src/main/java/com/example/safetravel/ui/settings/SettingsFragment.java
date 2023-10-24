@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.content.Context;
+import android.os.Environment;
 import android.telephony.SmsManager;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -90,7 +91,8 @@ public class SettingsFragment extends Fragment {
         TextView userPhoneText = view.findViewById(R.id.userPhoneText);
 
         // Replace these sample values with the actual user data
-        File internalDir = requireContext().getFilesDir();
+        File internalDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+
         File profileJSON = new File(internalDir, "profile.json");
 
         if (profileJSON.exists()) {
