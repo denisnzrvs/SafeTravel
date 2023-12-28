@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.safetravel.Category;
 import com.example.safetravel.databinding.FragmentHomeBinding;
 import com.example.safetravel.FileHandler;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -36,7 +37,7 @@ public class HomeFragment extends Fragment {
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        Button addButton = binding.addButton;
+        MaterialButton addButton = (MaterialButton) binding.addButton;
 
         FileHandler fh = new FileHandler(getContext());
         String currentTrip = fh.getCurrentTripName();
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 // Create a new button for the folder and add it to the current column layout
-                Button button = new Button(getContext());
+                MaterialButton button = new MaterialButton(getContext());
                 button.setText(folder.getName());
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -83,7 +84,7 @@ startActivity(new Intent(getContext(), Category.class).putExtra("folderName", fo
                 currentColumnLayout.addView(button); // Add the button to the current column layout
                 count++;
             }
-                Button addFolder = new Button(getContext());
+                MaterialButton addFolder = new MaterialButton(getContext());
                 addFolder.setText("Add Folder");
                 addFolder.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
                 addFolder.setOnClickListener(new View.OnClickListener() {
